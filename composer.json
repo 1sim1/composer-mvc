@@ -1,0 +1,15 @@
+{
+    "name": "simon/composer-mvc",
+    "autoload": {
+        "psr-4": {
+            "app\\": "./"
+        }
+    },
+    "authors": [
+        {
+            "name": "Simone Maccari",
+            "email": "s.maccari@geosystems.it"
+        }
+    ],
+    "require": {}
+}
