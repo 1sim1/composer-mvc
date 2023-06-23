@@ -11,9 +11,9 @@ $app->router->addRoute('get', '/', array(new SiteController(), 'home'));
 $app->router->addRoute('get', '/contact', array(new SiteController(), 'contact'));
 $app->router->addRoute('post', '/contact', array(new SiteController(), 'handleContact'));
 
-$app->router->addRoute('get', '/login', array(new AuthController(), 'login'));
-$app->router->addRoute('post', '/login', array(new AuthController(), 'login'));
+$app->router->addRoute('get', '/login', array(new AuthController(), 'showLogin'));
+$app->router->addRoute('post', '/login', array(new AuthController(), 'showLogin'));
 
-$app->router->addRoute('get', '/register', array(new AuthController(), 'register'));
-$app->router->addRoute('post', '/register', array(new AuthController(), 'register'));
+$app->router->addRoute('get', '/register', array(new AuthController(), 'showRegister'));
+$app->router->addRoute('post', '/register', array(new AuthController(), 'showRegister'));
 $app->run();
