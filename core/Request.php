@@ -26,20 +26,4 @@ class Request
     {
         return $this->method() === 'post';
     }
-    public function getBody()
-    {
-        //Funzione che sanifica i dati presi in post dal form
-        $body = [];
-        if($this->method() === 'get') {
-            foreach($_GET as $key => $value) {
-                $body[$key] = filter_input(INPUT_GET, $key, FILTER_SANITIZE_SPECIAL_CHARS);
-            }
-        }
-        if($this->method() === 'post') {
-            foreach($_GET as $key => $value) {
-                $body[$key] = filter_input(INPUT_POST, $key, FILTER_SANITIZE_SPECIAL_CHARS);
-            }
-        }
-        return $body;
-    }
 }
