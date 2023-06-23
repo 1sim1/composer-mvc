@@ -1,5 +1,6 @@
 <h1>Create an account</h1>
-<?php $form = app\core\form\Form::begin('', 'post') ?>
+<?php $form = app\core\form\Form::begin('', 'post')?>
+  <?php $model = new \app\models\RegisterModel(); ?>
   <?php echo $form->field($model, 'firstname') ?>
   <?php echo $form->field($model, 'lastname') ?>
   <?php echo $form->field($model, 'email') ?>
