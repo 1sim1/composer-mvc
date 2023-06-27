@@ -3,8 +3,8 @@
 namespace app\controllers;
 
 use app\core\Controller;
-use app\core\Request;
-use app\models\RegisterModel;
+use app\models\UserEntity;
+
 header('Access-Control-Allow-Origin: http://localhost:8080', false);
 class AuthController extends Controller
 {
@@ -15,12 +15,33 @@ class AuthController extends Controller
     public function validateLoginCredentials()
     {
         $email = $_POST['email'];
-        $email = filter_var($email, FILTER_SANITIZE_EMAIL);
-        $email = trim($email);
+        $password = $_POST['password'];
 
-        $ret['cod'] = 0;
-        $ret['dat'] = $email;
-        $ret['msg'] = "Login effettuato con la mail $email";
+        $email = filter_var($email, FILTER_SANITIZE_EMAIL);
+        $password = filter_var($password, FILTER_SANITIZE_SPECIAL_CHARS);
+
+        $email = trim($email);
+        $password = trim($password);
+
+        $userModel = new UserEntity();
+        $user = $userModel->findUserByEmail($email);
+        if ($user) {
+            $hashed_user_password = password_hash($user->password, PASSWORD_DEFAULT);
+            $hashed_input_password = password_hash($password, PASSWORD_DEFAULT);
+            if ($hashed_user_password === $hashed_input_password) {
+                $ret['cod'] = 0;
+                $ret['dat'] = $user;
+                $ret['msg'] = "Login effettuato con la mail $email";
+            } else {
+                $ret['cod'] = 1;
+                $ret['dat'] = null;
+                $ret['msg'] = "Credenziali non valide";
+            }
+        } else {
+            $ret['cod'] = 1;
+            $ret['dat'] = null;
+            $ret['msg'] = "Nessun utente registrato con la mail $email";
+        }
         echo json_encode($ret);
     }
     public function showRegister()
@@ -47,16 +68,24 @@ class AuthController extends Controller
         $password = trim($password);
         $confirmPassword = trim($confirmPassword);
 
-        if($password === $confirmPassword) {
-            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-            $hashed_confirmPassword = password_hash($password, PASSWORD_DEFAULT);
-            
-            $validatedCredentials = array($firstname, $lastname, $email, $hashed_password, $hashed_confirmPassword);
-            $ret['cod'] = 0;
-            $ret['dat'] = $validatedCredentials;
-            $ret['msg'] = "Registrazione effettuata con le credenziali $validatedCredentials[0], $validatedCredentials[1], $validatedCredentials[2], $validatedCredentials[3]";
+        if ($password === $confirmPassword) {
+            $userModel = new UserEntity();
+            $user = $userModel->findUserByEmail($email);
+            if (!$user) {
+                $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+                $hashed_confirmPassword = password_hash($password, PASSWORD_DEFAULT);
+                $userModel->addUser($firstname, $lastname, $email, $hashed_password);
+                $validatedCredentials = array($firstname, $lastname, $email, $hashed_password, $hashed_confirmPassword);
+                $ret['cod'] = 0;
+                $ret['dat'] = $validatedCredentials;
+                $ret['msg'] = "Registrazione effettuata con le credenziali $validatedCredentials[0], $validatedCredentials[1], $validatedCredentials[2], $validatedCredentials[3]";
+            } else {
+                $ret['cod'] = 1;
+                $ret['dat'] = null;
+                $ret['msg'] = "Esiste già un utente registrato con mail $email";
+            }
         } else {
-            $ret['cod'] = 0;
+            $ret['cod'] = 1;
             $ret['dat'] = null;
             $ret['msg'] = "Le due password inserite non coincidono";
         }
