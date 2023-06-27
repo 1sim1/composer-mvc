@@ -48,7 +48,10 @@ class AuthController extends Controller
         $confirmPassword = trim($confirmPassword);
 
         if($password === $confirmPassword) {
-            $validatedCredentials = array($firstname, $lastname, $email, $password, $confirmPassword);
+            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+            $hashed_confirmPassword = password_hash($password, PASSWORD_DEFAULT);
+            
+            $validatedCredentials = array($firstname, $lastname, $email, $hashed_password, $hashed_confirmPassword);
             $ret['cod'] = 0;
             $ret['dat'] = $validatedCredentials;
             $ret['msg'] = "Registrazione effettuata con le credenziali $validatedCredentials[0], $validatedCredentials[1], $validatedCredentials[2], $validatedCredentials[3]";
