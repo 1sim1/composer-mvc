@@ -1,7 +1,7 @@
 $(document).ready(function () {
     $('#login').off('submit').on('submit', onSubmitLogin);
     $('#register').off('submit').on('submit', onSubmitRegister);
-
+    $('#contact').off('submit').on('submit', onSubmitContact);
 });
 
 onSubmitLogin = function (e) {
@@ -11,7 +11,7 @@ onSubmitLogin = function (e) {
     $.ajax({
         url: '/login',
         type: "POST",
-        success: onPostValidatedCredentials,
+        success: onPostForms,
         async: true,
         context: this,
         crossBrowser: "true",
@@ -34,7 +34,7 @@ onSubmitRegister = function (e) {
         $.ajax({
             url: '/register',
             type: "POST",
-            success: onPostValidatedCredentials,
+            success: onPostForms,
             async: true,
             context: this,
             crossBrowser: "true",
@@ -49,7 +49,29 @@ onSubmitRegister = function (e) {
     }
 }
 
-onPostValidatedCredentials = function (response) {
+onSubmitContact = function (e) {
+    e.preventDefault();
+    let subject = $('#subject').val();
+    let email = $('#email').val();
+    let body = $('#body').val();
+
+    alert('Invio il seguente testo per la validazione: ' + subject + ': ' + body);
+    $.ajax({
+        url: '/contact',
+        type: "POST",
+        success: onPostForms,
+        async: true,
+        context: this,
+        crossBrowser: "true",
+        data: {
+            'subject': subject,
+            'email': email,
+            'body': body
+        }
+    });
+}
+
+onPostForms = function (response) {
     response = $.parseJSON(response);
     alert(response.msg);
 }
