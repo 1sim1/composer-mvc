@@ -12,7 +12,7 @@ class AuthController extends Controller
     {
         return $this->render('login');
     }
-    public function showCredentials()
+    public function validateLoginCredentials()
     {
         $email = $_POST['email'];
         $email = filter_var($email, FILTER_SANITIZE_EMAIL);

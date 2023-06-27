@@ -11,14 +11,14 @@ onSubmitLogin = function(e) {
     $.ajax({
         url: '/login',
         type: "POST",
-        success: onPostShowCredentials,
+        success: onPostValidatedCredentials,
         async: true,
         context: this,
         crossBrowser: "true",
         data: { 'email' : email }
     });
 }
-onPostShowCredentials = function(response) {
+onPostValidatedCredentials = function(response) {
     response = $.parseJSON(response);
     alert(response.msg);
 }

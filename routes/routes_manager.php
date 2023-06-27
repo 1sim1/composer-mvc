@@ -13,7 +13,7 @@ $app->router->addRoute('get', '/contact', array(new SiteController(), 'showConta
 // $app->router->addRoute('post', '/contact', array(new SiteController(), 'showContact'));
 
 $app->router->addRoute('get', '/login', array(new AuthController(), 'showLogin'));
-$app->router->addRoute('post', '/login', array(new AuthController(), 'showCredentials'));
+$app->router->addRoute('post', '/login', array(new AuthController(), 'validateLoginCredentials'));
 
 $app->router->addRoute('get', '/register', array(new AuthController(), 'showRegister'));
 // $app->router->addRoute('post', '/register', array(new AuthController(), 'showRegister'));
