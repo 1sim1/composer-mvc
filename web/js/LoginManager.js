@@ -7,6 +7,7 @@ $(document).ready(function () {
 onSubmitLogin = function (e) {
     e.preventDefault();
     let email = $('#email').val();
+    let password = $('#password').val();
     alert('Invio la seguente mail per la validazione: ' + email);
     $.ajax({
         url: '/login',
@@ -15,7 +16,10 @@ onSubmitLogin = function (e) {
         async: true,
         context: this,
         crossBrowser: "true",
-        data: { 'email': email }
+        data: {
+            'email': email,
+            'password': password
+        }
     });
 }
 

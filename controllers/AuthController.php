@@ -26,9 +26,7 @@ class AuthController extends Controller
         $userModel = new UserEntity();
         $user = $userModel->findUserByEmail($email);
         if ($user) {
-            $hashed_user_password = password_hash($user->password, PASSWORD_DEFAULT);
-            $hashed_input_password = password_hash($password, PASSWORD_DEFAULT);
-            if ($hashed_user_password === $hashed_input_password) {
+            if ($user->password === $password) {
                 $ret['cod'] = 0;
                 $ret['dat'] = $user;
                 $ret['msg'] = "Login effettuato con la mail $email";
@@ -72,10 +70,8 @@ class AuthController extends Controller
             $userModel = new UserEntity();
             $user = $userModel->findUserByEmail($email);
             if (!$user) {
-                $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-                $hashed_confirmPassword = password_hash($password, PASSWORD_DEFAULT);
-                $userModel->addUser($firstname, $lastname, $email, $hashed_password);
-                $validatedCredentials = array($firstname, $lastname, $email, $hashed_password, $hashed_confirmPassword);
+                $userModel->addUser($firstname, $lastname, $email, $password);
+                $validatedCredentials = array($firstname, $lastname, $email, $password, $confirmPassword);
                 $ret['cod'] = 0;
                 $ret['dat'] = $validatedCredentials;
                 $ret['msg'] = "Registrazione effettuata con le credenziali $validatedCredentials[0], $validatedCredentials[1], $validatedCredentials[2], $validatedCredentials[3]";
