@@ -7,8 +7,20 @@ $(document).ready(function() {
 onSubmitLogin = function(e) {
     e.preventDefault();
     let email = $('#email').val();
-    alert('Login con email ' + email);
-    
+    alert('Invio la seguente mail per la validazione: ' + email);
+    $.ajax({
+        url: '/login',
+        type: "POST",
+        success: onPostShowCredentials,
+        async: true,
+        context: this,
+        crossBrowser: "true",
+        data: { 'email' : email }
+    });
+}
+onPostShowCredentials = function(response) {
+    response = $.parseJSON(response);
+    alert(response.msg);
 }
 
 onSubmitRegister = function(e) {
