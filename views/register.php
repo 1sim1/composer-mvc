@@ -1,5 +1,5 @@
 <h1>Create an account</h1>
-<form action="" method="post">
+<form action="" method="post" id="register">
 
   <div class="mb-3">
     <label>First name</label>
@@ -26,5 +26,5 @@
     <input type="password" id="confirmPassword" name="confirmPassword" class="form-control">
   </div>
 
-  <button type="submit" id="register" class="btn btn-primary">Submit</button>
+  <button type="submit" class="btn btn-primary">Submit</button>
 </form>

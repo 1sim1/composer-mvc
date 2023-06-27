@@ -1,15 +1,17 @@
 $(document).ready(function() {
-    $('#login').off('click').on('click', onSubmitLogin);
-    $('#register').off('click').on('click', onSubmitRegister);
+    $('#login').off('submit').on('submit', onSubmitLogin);
+    $('#register').off('submit').on('submit', onSubmitRegister);
     
 });
 
-onSubmitLogin = function() {
+onSubmitLogin = function(e) {
+    e.preventDefault();
     let email = $('#email').val();
     alert('Login con email ' + email);
 }
 
-onSubmitRegister = function() {
+onSubmitRegister = function(e) {
+    e.preventDefault();
     let firstName = $('#firstname').val();
     let lastName = $('#lastname').val();
     let email = $('#email').val();

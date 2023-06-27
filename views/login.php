@@ -1,5 +1,5 @@
 <h1>Login</h1>
-<form action="" method="post">
+<form action="" method="post" id="login">
   <div class="mb-3">
     <label>e-Mail</label>
     <input type="email" id="email" name="email" class="form-control">
@@ -8,5 +8,5 @@
     <label>Password</label>
     <input type="password" id="password" name="password" class="form-control">
   </div>
-  <button type="submit" id="login" class="btn btn-primary">Submit</button>
+  <button type="submit" class="btn btn-primary">Submit</button>
 </form>
