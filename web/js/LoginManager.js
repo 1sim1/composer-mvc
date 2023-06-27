@@ -8,6 +8,7 @@ onSubmitLogin = function(e) {
     e.preventDefault();
     let email = $('#email').val();
     alert('Login con email ' + email);
+    
 }
 
 onSubmitRegister = function(e) {
