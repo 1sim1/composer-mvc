@@ -1,10 +1,10 @@
-$(document).ready(function() {
+$(document).ready(function () {
     $('#login').off('submit').on('submit', onSubmitLogin);
     $('#register').off('submit').on('submit', onSubmitRegister);
-    
+
 });
 
-onSubmitLogin = function(e) {
+onSubmitLogin = function (e) {
     e.preventDefault();
     let email = $('#email').val();
     alert('Invio la seguente mail per la validazione: ' + email);
@@ -15,15 +15,11 @@ onSubmitLogin = function(e) {
         async: true,
         context: this,
         crossBrowser: "true",
-        data: { 'email' : email }
+        data: { 'email': email }
     });
 }
-onPostValidatedCredentials = function(response) {
-    response = $.parseJSON(response);
-    alert(response.msg);
-}
 
-onSubmitRegister = function(e) {
+onSubmitRegister = function (e) {
     e.preventDefault();
     let firstName = $('#firstname').val();
     let lastName = $('#lastname').val();
@@ -31,9 +27,29 @@ onSubmitRegister = function(e) {
     let password = $('#password').val();
     let confirmPassword = $('#confirmPassword').val();
 
-    if(password !== confirmPassword) {
+    if (password !== confirmPassword) {
         alert('Le password inserite non coincidono');
     } else {
-        alert('Campi inseriti: ' + firstName + ', ' + lastName + ', ' + email);
+        alert('Campi da validare: ' + firstName + ', ' + lastName + ', ' + email);
+        $.ajax({
+            url: '/register',
+            type: "POST",
+            success: onPostValidatedCredentials,
+            async: true,
+            context: this,
+            crossBrowser: "true",
+            data: {
+                'firstname': firstName,
+                'lastname': lastName,
+                'email': email,
+                'password': password,
+                'confirmPassword': confirmPassword
+            }
+        });
     }
+}
+
+onPostValidatedCredentials = function (response) {
+    response = $.parseJSON(response);
+    alert(response.msg);
 }
